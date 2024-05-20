@@ -3,6 +3,7 @@ package org.example.solution;
 import org.example.solution.util.Category;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 
 public class Product {
@@ -25,6 +26,15 @@ public class Product {
 
     private synchronized int generateId(){
         return idCounter++;
+    }
+
+    public double calculateSellingPrice(Map<Category, Double> markupPercentages, int daysBeforeExpiration, double discountPercentage){
+        double markupPercentage = markupPercentages.getOrDefault(category, 0.0);
+        double sellingPrice = unitPurchasePrice * (1+markupPercentage/100);
+        if(expirationDate.isBefore(LocalDate.now().plusDays(daysBeforeExpiration))){
+            sellingPrice *= (1 - discountPercentage / 100);
+        }
+        return sellingPrice;
     }
 
 
