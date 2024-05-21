@@ -2,8 +2,8 @@ package org.example.solution;
 
 public class Cashier {
     private static int cashierCount = 0;
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private double salary;
 
     public Cashier(String name, double salary){
@@ -17,6 +17,13 @@ public class Cashier {
     }
     public int getId(){
         return this.id;
+    }
+    public double getSalary(){
+        return this.salary;
+    }
+
+    public void setSalary(double newSalary){
+        this.salary = newSalary;
     }
 
     private synchronized int generateId(){
