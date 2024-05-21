@@ -14,6 +14,7 @@ public class Product {
     private Category category;
     private LocalDate expirationDate;
     private int quantity;
+    private Store store;
 
     public Product(String name, double unitPurchasePrice, Category category, LocalDate expirationDate, int quantity){
         this.id = generateId();
@@ -28,10 +29,18 @@ public class Product {
         return idCounter++;
     }
 
-    public double calculateSellingPrice(Map<Category, Double> markupPercentages, int daysBeforeExpiration, double discountPercentage){
+    public String getName(){
+        return this.name;
+    }
+
+    public double calculateSellingPrice(){
+        Map<Category, Double> markupPercentages = store.getMarkupPercentages();
+        int daysBeforeExpiration = store.getDaysBeforeExpiration();
+        double discountPercentage = store.getDiscountPercentage();
+
         double markupPercentage = markupPercentages.getOrDefault(category, 0.0);
-        double sellingPrice = unitPurchasePrice * (1+markupPercentage/100);
-        if(expirationDate.isBefore(LocalDate.now().plusDays(daysBeforeExpiration))){
+        double sellingPrice = unitPurchasePrice * (1 + markupPercentage / 100);
+        if (expirationDate.isBefore(LocalDate.now().plusDays(daysBeforeExpiration))) {
             sellingPrice *= (1 - discountPercentage / 100);
         }
         return sellingPrice;
