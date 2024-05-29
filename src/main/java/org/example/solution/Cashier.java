@@ -1,7 +1,7 @@
 package org.example.solution;
 
 public class Cashier {
-    private static int cashierCount = 0;
+    private static int idCounter = 0;
     private final int id;
     private final String name;
     private double salary;
@@ -10,6 +10,9 @@ public class Cashier {
         this.id = generateId();
         this.name = name;
         this.salary = salary;
+    }
+    private synchronized int generateId(){
+        return idCounter++;
     }
 
     public String getName(){
@@ -26,7 +29,5 @@ public class Cashier {
         this.salary = newSalary;
     }
 
-    private synchronized int generateId(){
-        return cashierCount++;
-    }
+
 }
