@@ -18,9 +18,6 @@ public class Cashier {
     public String getName(){
         return this.name;
     }
-    public int getId(){
-        return this.id;
-    }
     public double getSalary(){
         return this.salary;
     }
