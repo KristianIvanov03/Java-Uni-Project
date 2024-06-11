@@ -1,9 +1,12 @@
 package org.example.solution;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Scanner;
 
 public class Receipt {
     private static int receiptCounter = 0;
@@ -52,14 +55,31 @@ public class Receipt {
     }
 
     public void saveToFile() {
-        String filename = "receipt_" + receiptNumber + ".txt";
+        String directoryPath = "src/main/java/org/example/solution/receipts";
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String filename = directoryPath + "/receipt_" + receiptNumber + ".txt";
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write(toString());
         } catch (IOException e) {
             System.err.println("Error writing receipt to file: " + e.getMessage());
         }
     }
-
+    public static void printReceiptFromFile(int receiptNumber) {
+        String directoryPath = "src/main/java/org/example/solution/receipts";
+        String filename = directoryPath + "/receipt_" + receiptNumber + ".txt";
+        File file = new File(filename);
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error reading receipt file: " + e.getMessage());
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

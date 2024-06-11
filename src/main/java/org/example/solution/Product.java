@@ -17,12 +17,16 @@ public class Product {
     private Store store;
 
     public Product(String name, double unitPurchasePrice, Category category, LocalDate expirationDate, int quantity){
+        if (unitPurchasePrice < 0 || quantity < 0) {
+            throw new IllegalArgumentException("Price and quantity cannot be negative");
+        }
         this.id = generateId();
         this.name = name;
         this.unitPurchasePrice = unitPurchasePrice;
         this.category = category;
         this.expirationDate = expirationDate;
         this.quantity = quantity;
+        this.store = null;
     }
 
     private synchronized int generateId(){
@@ -31,6 +35,26 @@ public class Product {
 
     public String getName(){
         return this.name;
+    }
+    public Category getCategory(){return this.category;}
+    public LocalDate getExpirationDate(){return this.expirationDate;}
+    public int getQuantity(){
+        return this.quantity;
+    }
+    public void setQuantity(int quantity){
+        this.quantity = quantity;
+    }
+    public double getUnitPurchasePrice(){
+        return this.unitPurchasePrice;
+    }
+    public void setStore(Store store){
+        this.store = store;
+    }
+    public void setExpirationDate(LocalDate date){
+        this.expirationDate = date;
+    }
+    public Store getStore(){
+        return this.store;
     }
 
     public double calculateSellingPrice(){
@@ -43,7 +67,7 @@ public class Product {
         if (expirationDate.isBefore(LocalDate.now().plusDays(daysBeforeExpiration))) {
             sellingPrice *= (1 - discountPercentage / 100);
         }
-        return sellingPrice;
+        return Math.round(sellingPrice * 100.0) / 100.0;
     }
 
 

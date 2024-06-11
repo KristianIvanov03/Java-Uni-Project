@@ -9,10 +9,6 @@ public class Sale {
         this.quantity = quantity;
     }
 
-    public String getProductName() {
-        return this.product.getName();
-    }
-
     public int getQuantity() {
         return this.quantity;
     }
